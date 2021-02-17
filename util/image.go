@@ -22,5 +22,5 @@ func LoadImage(path string) (*ebiten.Image, error) {
 	}
 
 	eimg := ebiten.NewImageFromImage(img)
-	return eimg
+	return eimg, nil
 }

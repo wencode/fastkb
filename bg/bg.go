@@ -3,7 +3,7 @@ package bg
 import (
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 	"github.com/wencode/fastkb/hub"
 	"github.com/wencode/fastkb/util"
 )
@@ -27,7 +27,9 @@ func (m *Module) Update(delta time.Duration) error {
 }
 
 func (m *Module) Draw(screen *ebiten.Image) {
-	screen.DrawImage(m.img, ebiten.DrawImageOptions{})
+	if m.img != nil {
+		screen.DrawImage(m.img, &ebiten.DrawImageOptions{})
+	}
 }
 
 func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {

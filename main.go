@@ -4,8 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
-
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 	"github.com/wencode/fastkb/hub"
 
 	// Modules
@@ -18,12 +17,6 @@ type Game struct {
 }
 
 func (g *Game) Update() error {
-	// When IsDrawingSkipped is true, the rendered result is not adopted.
-	// Skip rendering then.
-	if ebiten.IsDrawingSkipped() {
-		return nil
-	}
-
 	now := time.Now()
 	delta := now.Sub(g.lastTime)
 	g.lastTime = now
