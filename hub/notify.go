@@ -1,6 +1,6 @@
 package hub
 
 const (
-	Notify_Main_AppStart = iota
-	Notify_Main_LevelStart
+	Notify_app_Start = iota
+	Notify_mainui_LevelStart
 )

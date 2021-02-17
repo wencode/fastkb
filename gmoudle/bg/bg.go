@@ -13,7 +13,7 @@ var mod *Module
 func init() {
 	mod = &Module{}
 	hub.Register(mod)
-	hub.Listen(mod, "main", hub.Notify_Main_AppStart)
+	hub.Listen(mod, "app", hub.Notify_app_Start)
 }
 
 type Module struct {
