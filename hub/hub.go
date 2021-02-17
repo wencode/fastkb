@@ -10,6 +10,7 @@ type Notify int
 
 type Module interface {
 	Name() string
+	Init() error
 	Update(time.Duration) error
 	draw.Drawing
 	OnNotify(ntf Notify, arg0, arg1 int, arg interface{})
@@ -62,7 +63,11 @@ func SyncExec(fn ModuleFunc) {
 }
 
 func Notifying(srcMod Module, ntf Notify, arg0, arg1 int, arg interface{}) {
-	key := listenKey{srcMod.Name(), ntf}
+	NotifyingDelegate(srcMod.Name(), ntf, arg0, arg1, arg)
+}
+
+func NotifyingDelegate(srcModeName string, ntf Notify, arg0, arg1 int, arg interface{}) {
+	key := listenKey{srcModeName, ntf}
 	mods, ok := listenMap[key]
 	if !ok {
 		return

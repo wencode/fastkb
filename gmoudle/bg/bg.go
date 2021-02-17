@@ -3,7 +3,9 @@ package bg
 import (
 	"time"
 
-	ebiten "github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2"
+
+	"github.com/wencode/fastkb/audio"
 	"github.com/wencode/fastkb/hub"
 	"github.com/wencode/fastkb/util"
 )
@@ -22,25 +24,35 @@ type Module struct {
 
 func (m *Module) Name() string { return "bg" }
 
+func (m *Module) Init() error {
+	audio.PlayBG()
+	return nil
+}
+
 func (m *Module) Update(delta time.Duration) error {
 	return nil
 }
 
 func (m *Module) Draw(screen *ebiten.Image) {
-	if m.img != nil {
-		screen.DrawImage(m.img, &ebiten.DrawImageOptions{})
+	if img := m.img; img != nil {
+		sw, sh := screen.Size()
+		w, h := img.Size()
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Scale(float64(sw)/float64(w), float64(sh)/float64(h))
+
+		screen.DrawImage(m.img, op)
 	}
 }
 
 func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {
 	switch ntf {
-	case hub.Notify_Main_AppStart:
+	case hub.Notify_app_Start:
 		m.onAppStart()
 	}
 }
 
 func (m *Module) onAppStart() {
-	img, err := util.LoadImage("./morning_bg.jpeg")
+	img, err := util.LoadImage("./bg1.jpeg")
 	if err != nil {
 		hub.Err("load bg image error: %v", err)
 	}

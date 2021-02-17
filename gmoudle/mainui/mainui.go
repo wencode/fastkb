@@ -3,7 +3,7 @@ package mainui
 import (
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 	"github.com/wencode/fastkb/hub"
 )
 
@@ -20,9 +20,15 @@ type Module struct {
 
 func (m *Module) Name() string { return "mainui" }
 
+func (m *Module) Init() error {
+	return nil
+}
+
 func (m *Module) Update(delta time.Duration) error {
 	return nil
 }
 
 func (m *Module) Draw(screen *ebiten.Image) {
 }
+
+func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {}
