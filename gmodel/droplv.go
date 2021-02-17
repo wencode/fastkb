@@ -20,8 +20,10 @@ type _DropLv struct {
 
 	CharList []*Char
 
-	Points int
-	Miss   int
+	Time     time.Duration
+	LifeNum  int
+	PointNum int
+	Miss     int
 }
 
 var (

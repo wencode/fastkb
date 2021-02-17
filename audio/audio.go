@@ -79,7 +79,7 @@ func init() {
 }
 
 func PlayBG() {
-	//bgPlayer.Play()
+	bgPlayer.Play()
 }
 
 func Hit() {

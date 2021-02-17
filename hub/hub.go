@@ -62,6 +62,10 @@ func SyncExec(fn ModuleFunc) {
 	}
 }
 
+func LightNotify(srcMod Module, ntf Notify) {
+	Notifying(srcMod, ntf, 0, 0, nil)
+}
+
 func Notifying(srcMod Module, ntf Notify, arg0, arg1 int, arg interface{}) {
 	NotifyingDelegate(srcMod.Name(), ntf, arg0, arg1, arg)
 }
