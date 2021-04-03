@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 
 	"github.com/wencode/fastkb/audio"
@@ -33,7 +33,7 @@ func init() {
 
 	mod = &Module{}
 	hub.Register(mod)
-	hub.Listen(mod, "mainui", hub.Notify_mainui_LevelStart)
+	hub.Listen(mod, "mainui", hub.Notif_mainui_LevelStart)
 }
 
 type Module struct {
@@ -48,7 +48,6 @@ type Module struct {
 func (m *Module) Name() string { return "droplv" }
 
 func (m *Module) Init() error {
-
 	return nil
 }
 
@@ -81,9 +80,9 @@ func (m *Module) Draw(screen *ebiten.Image) {
 	font.DrawString(screen, m.pointsStr, 900, 50, color.RGBA{0, 255, 255, 255})
 }
 
-func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {
+func (m *Module) OnNotify(ntf hub.Notif, arg0, arg1 int, arg interface{}) {
 	switch ntf {
-	case hub.Notify_mainui_LevelStart:
+	case hub.Notif_mainui_LevelStart:
 		m.levelInit()
 	}
 }
@@ -93,7 +92,7 @@ func (m *Module) levelInit() {
 	data.GenX0 = 50
 	data.GenX1 = 950
 	data.DelY = 500
-	data.GenInterval = time.Millisecond * 500
+	data.GenInterval = time.Millisecond * 1000
 	data.MoveVel = 120
 	data.CharList = data.CharList[0:0]
 	data.Time = time.Duration(time.Second * 60)
@@ -117,7 +116,7 @@ func (m *Module) updateTime(delta time.Duration) {
 		if data.Time <= 0 {
 			data.Time = 0
 			hub.Trace("level end!")
-			hub.LightNotify(mod, hub.Notify_LevelEnd)
+			hub.LightNotify(mod, hub.Notif_LevelEnd)
 		}
 	}
 }
@@ -200,6 +199,6 @@ func (m *Module) decLife() {
 		m.lifeStr = strconv.Itoa(data.LifeNum)
 	}
 	if data.LifeNum == 0 {
-		hub.LightNotify(mod, hub.Notify_LevelOver)
+		hub.LightNotify(mod, hub.Notif_LevelOver)
 	}
 }

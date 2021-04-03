@@ -26,7 +26,7 @@ func (g *Game) Update() error {
 		hub.SyncExec(func(mod hub.Module) {
 			mod.Init()
 		})
-		hub.NotifyingDelegate("app", hub.Notify_app_Start, 0, 0, nil)
+		hub.NotifyingByName("app", hub.Notif_app_Start, 0, 0, nil)
 	}
 	now := time.Now()
 	delta := now.Sub(g.lastTime)

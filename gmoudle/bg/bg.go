@@ -3,7 +3,7 @@ package bg
 import (
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 
 	"github.com/wencode/fastkb/audio"
 	"github.com/wencode/fastkb/hub"
@@ -15,7 +15,7 @@ var mod *Module
 func init() {
 	mod = &Module{}
 	hub.Register(mod)
-	hub.Listen(mod, "app", hub.Notify_app_Start)
+	hub.Listen(mod, "app", hub.Notif_app_Start)
 }
 
 type Module struct {
@@ -44,9 +44,9 @@ func (m *Module) Draw(screen *ebiten.Image) {
 	}
 }
 
-func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {
+func (m *Module) OnNotify(ntf hub.Notif, arg0, arg1 int, arg interface{}) {
 	switch ntf {
-	case hub.Notify_app_Start:
+	case hub.Notif_app_Start:
 		m.onAppStart()
 	}
 }

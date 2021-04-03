@@ -15,9 +15,9 @@ var mod *Module
 func init() {
 	mod = &Module{}
 	hub.Register(mod)
-	hub.Listen(mod, "app", hub.Notify_app_Start)
-	hub.Listen(mod, "droplv", hub.Notify_LevelOver)
-	hub.Listen(mod, "droplv", hub.Notify_LevelEnd)
+	hub.Listen(mod, "app", hub.Notif_app_Start)
+	hub.Listen(mod, "droplv", hub.Notif_LevelOver)
+	hub.Listen(mod, "droplv", hub.Notif_LevelEnd)
 }
 
 const (
@@ -56,7 +56,7 @@ func (m *Module) Init() error {
 func (m *Module) Update(delta time.Duration) error {
 	if m.state > 0 {
 		if inpututil.IsKeyJustReleased(ebiten.KeyEnter) {
-			hub.LightNotify(mod, hub.Notify_mainui_LevelStart)
+			hub.LightNotify(mod, hub.Notif_mainui_LevelStart)
 			m.state = stateHidden
 		}
 	}
@@ -83,13 +83,13 @@ func (m *Module) Draw(screen *ebiten.Image) {
 	}
 }
 
-func (m *Module) OnNotify(ntf hub.Notify, arg0, arg1 int, arg interface{}) {
+func (m *Module) OnNotify(ntf hub.Notif, arg0, arg1 int, arg interface{}) {
 	switch ntf {
-	case hub.Notify_app_Start:
+	case hub.Notif_app_Start:
 		m.state = stateStart
-	case hub.Notify_LevelOver:
+	case hub.Notif_LevelOver:
 		m.state = stateOver
-	case hub.Notify_LevelEnd:
+	case hub.Notif_LevelEnd:
 		m.state = stateEnd
 	}
 }

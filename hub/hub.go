@@ -6,21 +6,19 @@ import (
 	"github.com/wencode/fastkb/draw"
 )
 
-type Notify int
-
 type Module interface {
 	Name() string
 	Init() error
 	Update(time.Duration) error
-	draw.Drawing
-	OnNotify(ntf Notify, arg0, arg1 int, arg interface{})
+	// Draw()方法
+	draw.Drawing // 不直接引入Draw()方法, 原因是方便更换底层引擎
+	// 接收到Notifaction
+	OnNotify(ntf Notif, arg0, arg1 int, arg interface{})
 }
-
-type ModuleFunc func(Module)
 
 type listenKey struct {
 	modName string
-	ntf     Notify
+	ntf     Notif
 }
 
 var (
@@ -32,7 +30,7 @@ func Register(mod Module) {
 	mods = append(mods, mod)
 }
 
-func Listen(mod Module, srcModName string, ntf Notify) {
+func Listen(mod Module, srcModName string, ntf Notif) {
 	key := listenKey{srcModName, ntf}
 	mods, ok := listenMap[key]
 	if !ok {
@@ -53,24 +51,17 @@ func Update(delta time.Duration) (errModName string, err error) {
 	return
 }
 
-func ConcurrentExec(fn ModuleFunc) {
+// LightNotify用于无参数时Notify
+func LightNotify(srcMod Module, ntf Notif) {
+	Notify(srcMod, ntf, 0, 0, nil)
 }
 
-func SyncExec(fn ModuleFunc) {
-	for _, mod := range mods {
-		fn(mod)
-	}
+//
+func Notify(srcMod Module, ntf Notif, arg0, arg1 int, arg interface{}) {
+	NotifyingByName(srcMod.Name(), ntf, arg0, arg1, arg)
 }
 
-func LightNotify(srcMod Module, ntf Notify) {
-	Notifying(srcMod, ntf, 0, 0, nil)
-}
-
-func Notifying(srcMod Module, ntf Notify, arg0, arg1 int, arg interface{}) {
-	NotifyingDelegate(srcMod.Name(), ntf, arg0, arg1, arg)
-}
-
-func NotifyingDelegate(srcModeName string, ntf Notify, arg0, arg1 int, arg interface{}) {
+func NotifyingByName(srcModeName string, ntf Notif, arg0, arg1 int, arg interface{}) {
 	key := listenKey{srcModeName, ntf}
 	mods, ok := listenMap[key]
 	if !ok {
@@ -78,5 +69,16 @@ func NotifyingDelegate(srcModeName string, ntf Notify, arg0, arg1 int, arg inter
 	}
 	for _, mod := range mods {
 		mod.OnNotify(ntf, arg0, arg1, arg)
+	}
+}
+
+type ModuleFunc func(Module)
+
+func ConcurrentExec(fn ModuleFunc) {
+}
+
+func SyncExec(fn ModuleFunc) {
+	for _, mod := range mods {
+		fn(mod)
 	}
 }
