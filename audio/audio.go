@@ -41,7 +41,7 @@ func init() {
 }
 
 func init() {
-	file, err := os.Open("./dang.wav")
+	file, err := os.Open("res/dang.wav")
 	if err != nil {
 		log.Fatal(err)
 	}

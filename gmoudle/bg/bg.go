@@ -52,7 +52,7 @@ func (m *Module) OnNotify(ntf hub.Notif, arg0, arg1 int, arg interface{}) {
 }
 
 func (m *Module) onAppStart() {
-	img, err := util.LoadImage("./bg1.jpeg")
+	img, err := util.LoadImage("res/bg1.jpeg")
 	if err != nil {
 		hub.Err("load bg image error: %v", err)
 	}

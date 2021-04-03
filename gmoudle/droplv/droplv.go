@@ -136,7 +136,7 @@ func (m *Module) checkIntput() {
 		// hitted
 		m.addPoint()
 		audio.Hit()
-		hub.Trace("hit %c at %d", 'a'+i, idx)
+		//hub.Trace("hit %c at %d", 'a'+i, idx)
 		data.Remove(idx)
 	}
 }

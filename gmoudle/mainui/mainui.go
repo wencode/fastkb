@@ -38,15 +38,15 @@ func (m *Module) Name() string { return "mainui" }
 
 func (m *Module) Init() error {
 	var err error
-	m.startImg, err = util.LoadImage("./start.png")
+	m.startImg, err = util.LoadImage("res/start.png")
 	if err != nil {
 		hub.Err("load start.png error:%v", err)
 	}
-	m.overImg, err = util.LoadImage("./gameover.png")
+	m.overImg, err = util.LoadImage("res/gameover.png")
 	if err != nil {
 		hub.Err("load gameover.png error:%v", err)
 	}
-	m.endImg, err = util.LoadImage("./end.png")
+	m.endImg, err = util.LoadImage("res/end.png")
 	if err != nil {
 		hub.Err("load end.png error:%v", err)
 	}

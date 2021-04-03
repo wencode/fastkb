@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"math/rand"
 	"time"
@@ -51,6 +52,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHt in
 }
 
 func main() {
+	flag.Parse()
 	rand.Seed(time.Now().UnixNano())
 
 	game := &Game{}
